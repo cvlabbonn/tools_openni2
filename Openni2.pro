@@ -44,3 +44,6 @@ INCLUDEPATH += /usr/include/boost
 
 FORMS += \
     sliders.ui
+
+OTHER_FILES += \
+    possible_modes.txt

@@ -63,11 +63,6 @@ void Viewer::createRGBD(cv::Mat& depth_mat, cv::Mat& color_mat, cv::Mat& dst){
     for (int j = 0; j< depth_mat.rows; j ++){
         for(int i = 0; i < depth_mat.cols; i++){
             int depth_value = (int) depth_mat.at<unsigned short>(j,i);
-            //std::cout << depth_mat.at<unsigned short>(j,i) << std::endl;
-            if (isnan(depth_value))
-            {
-                std::cout << "gagagaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
-            }
             if (depth_value != 0 && depth_value <= limitz_max && depth_value >= limitz_min)
                 if ( limitx_min <= i && limitx_max >=i && limity_min <= j && limity_max >= j )
                     dst.at<cv::Vec3b>(j,i)  = color_mat.at<cv::Vec3b>(j,i);
