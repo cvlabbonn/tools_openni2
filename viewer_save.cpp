@@ -14,7 +14,7 @@ void Viewer::create_dir(){
 
     time (&rawtime);
     timeinfo = localtime (&rawtime);
-    strftime (buffer,20,"%Y.%m.%d-%H.%M.%S",timeinfo);
+    strftime (buffer,20,"%Y.%m.%d_%H.%M.%S",timeinfo);
     strstream << buffer;
     strstream >> folder;
     // create the directory
@@ -74,8 +74,8 @@ void Viewer::saveToDisk(){
         std::cout << "Saving frame " << i << std::endl;
         // generate filenames
         std::ostringstream     ss, srgb;
-        ss << std::setfill('0') << std::setw(8);
-        ss << i+1 ;
+        ss << std::setfill('0') << std::setw(3/*8*/);
+        ss << i/*+1*/ ;
         std::string fileNamePcl = folder_name + "/pcl" + "/" + ss.str() + ".pcd";
         std::string fileNameRGB = folder_name + "/rgb" + "/" + ss.str() + ".png";
         std::string fileNameRGBD = folder_name + "/rgbd" + "/" + ss.str() + ".png";
@@ -93,7 +93,7 @@ void Viewer::saveToDisk(){
         // save the depth info
 
         cv::FileStorage fs(fileNameDepthI, cv::FileStorage::WRITE);
-        fs << "depth" << depth_viz[i];
+        fs << "depth" << raw_depth[i];
         fs.release();
 
     }

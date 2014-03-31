@@ -42,7 +42,7 @@ public:
     openni::VideoFrameRef depthFrame, colorFrame;
 
     std::vector<cv::Mat> rgb_images;
-    std::vector<cv::Mat> depth_viz;
+    std::vector<cv::Mat> raw_depth;
     std::vector<cv::Mat> depth_show;
     std::vector<cv::Mat> rgbd_images;
     std::vector< pcl::PointCloud<typePoint> > point_clouds;
@@ -68,7 +68,7 @@ public:
     void close_all();
     void error_manager(int error);
     int loop();
-    void createRGBD(cv::Mat& depth_mat, cv::Mat& color_mat, cv::Mat& dst);
+    void createRGBD(cv::Mat& depth_mat, cv::Mat& color_mat, cv::Mat& dst_rgbd, cv::Mat& dst_depth);
     void key_parse(char key);
     void get_pcl(cv::Mat& color, cv::Mat& depth, pcl::PointCloud<typePoint>& cloud );
     void create_dir();

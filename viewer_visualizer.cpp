@@ -12,15 +12,15 @@ int Viewer::loop(){
             // make sure the data is valid
             if(depthFrame.isValid() && colorFrame.isValid()){
                 pcl::PointCloud<typePoint> cloud;
-                cv::Mat normDepth, rgbd;
+                cv::Mat normDepth, rgbd, depth_thresh;
                 //process both images
 
                 // depth image
                 const openni::DepthPixel* depthBuffer = (const openni::DepthPixel*)depthFrame.getData();;
                 frameDepth.create(depthFrame.getHeight(), depthFrame.getWidth(), CV_16UC1);
                 memcpy( frameDepth.data, depthBuffer, depthFrame.getHeight()*depthFrame.getWidth()*sizeof(uint16_t) );
-                cv::normalize(frameDepth, normDepth, 0, 255, CV_MINMAX, CV_8UC1);
-                cv::imshow("Depth", normDepth);
+
+
 
                 // color image
                 const openni::RGB888Pixel* imageBuffer = (const openni::RGB888Pixel*)colorFrame.getData();
@@ -30,8 +30,12 @@ int Viewer::loop(){
                 cv::imshow("Color", bgrMat);
 
                 // create the rgbd image
-                createRGBD(frameDepth, bgrMat, rgbd);
+                createRGBD(frameDepth, bgrMat, rgbd, depth_thresh);
                 cv::imshow("RGBD", rgbd);
+
+                //normalize and show depth data
+                cv::normalize(depth_thresh, normDepth, 0, 255, CV_MINMAX, CV_8UC1);
+                cv::imshow("Depth", normDepth);
 
                 if (saveMemory){
                     // create point cloud
@@ -43,7 +47,7 @@ int Viewer::loop(){
                     point_clouds.push_back(cloud);
                     rgb_images.push_back( bgrMat.clone() );
                     rgbd_images.push_back( rgbd.clone());
-                    depth_viz.push_back( frameDepth.clone() );
+                    raw_depth.push_back( depth_thresh.clone() );
                     depth_show.push_back( normDepth.clone() );
                     FRAME_COUNTER += 1;
 
@@ -58,14 +62,19 @@ int Viewer::loop(){
     return 0;
 }
 
-void Viewer::createRGBD(cv::Mat& depth_mat, cv::Mat& color_mat, cv::Mat& dst){
-    dst = cv::Mat::zeros(depth_mat.rows, depth_mat.cols, CV_8UC3);
+void Viewer::createRGBD(cv::Mat& depth_mat, cv::Mat& color_mat, cv::Mat& dst_rgbd, cv::Mat& dst_depth){
+
+    dst_rgbd = cv::Mat::zeros(depth_mat.rows, depth_mat.cols, CV_8UC3);
+    dst_depth = cv::Mat::zeros(depth_mat.rows, depth_mat.cols, CV_16UC1);
+
     for (int j = 0; j< depth_mat.rows; j ++){
         for(int i = 0; i < depth_mat.cols; i++){
             int depth_value = (int) depth_mat.at<unsigned short>(j,i);
             if (depth_value != 0 && depth_value <= limitz_max && depth_value >= limitz_min)
-                if ( limitx_min <= i && limitx_max >=i && limity_min <= j && limity_max >= j )
-                    dst.at<cv::Vec3b>(j,i)  = color_mat.at<cv::Vec3b>(j,i);
+                if ( limitx_min <= i && limitx_max >=i && limity_min <= j && limity_max >= j ){
+                    dst_rgbd.at<cv::Vec3b>(j,i)  = color_mat.at<cv::Vec3b>(j,i);
+                    dst_depth.at<unsigned short>(j,i)  = depth_mat.at<unsigned short>(j,i);
+                }
         }
     }
 }

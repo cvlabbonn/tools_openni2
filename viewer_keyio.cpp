@@ -12,7 +12,7 @@ void Viewer::key_parse(char key){
             rgb_images.clear();
             rgbd_images.clear();
             point_clouds.clear();
-            depth_viz.clear();
+            raw_depth.clear();
             depth_show.clear();
         }
         else {
@@ -30,7 +30,7 @@ void Viewer::key_parse(char key){
             rgb_images.clear();
             rgbd_images.clear();
             point_clouds.clear();
-            depth_viz.clear();
+            raw_depth.clear();
             depth_show.clear();
     }
 }
