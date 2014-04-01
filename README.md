@@ -51,6 +51,7 @@ Notes
 The program was tested in Ubuntu 12.04 x64.
 
 To retrieve the matrix from the yml file use
+
     cv::Mat depth;
     cv::FileStorage fs("0001.yml", cv::FileStorage::READ);
     fs[""]  >> depth;
