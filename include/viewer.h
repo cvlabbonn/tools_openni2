@@ -11,6 +11,8 @@
 #include <pcl/io/file_io.h>
 #include <time.h>
 #include <limits>
+#include <boost/program_options.hpp>
+namespace po = boost::program_options;
 
 typedef pcl::PointXYZRGB typePoint;
 const float bad_point = std::numeric_limits<float>::quiet_NaN();
@@ -48,6 +50,7 @@ public:
     std::vector< pcl::PointCloud<typePoint> > point_clouds;
 
     std::string folder_name;
+    std::string img_type;
     int FRAME_COUNTER;
     int limitx_min;
     int limitx_max;
@@ -57,13 +60,16 @@ public:
     int limitz_max;
     int frame_width;
     int frame_height;
+    int initial_frame;
+    int padding;
 
     bool exitFlag;
     bool saveMemory;
     bool saveDisk;
+    bool binary_mode;
 
 
-    Viewer();
+    Viewer(int argc, char *argv[]);
     ~Viewer();
     void close_all();
     void error_manager(int error);

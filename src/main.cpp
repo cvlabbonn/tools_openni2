@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Viewer viewer;
+    Viewer viewer(argc, argv);
     sliders s;
     s.viewer = &viewer;
     s.set_sliders_max();

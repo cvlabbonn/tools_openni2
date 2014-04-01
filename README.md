@@ -21,6 +21,20 @@ The program will generate 1 folder with 5 subfolders:
 - **rgb**: the rgb images captured by the camera
 - **rgbd**: a visualization of the depth and color registration
 
+These are the possible arguments you may pass to the program
+
+    Allowed options:
+
+      -h [ --help ]                help
+      -t [ --imgtype ] arg (=.png) image file type
+      -i [ --initial ] arg (=0)    Initial number of the frame
+      -p [ --padding ] arg (=3)    Pad the number with 0 to a set amount of digits
+      -b [ --binary ]              Save pcd files in binary mode
+
+Example:
+- start in frame 55, with a padding of 6, with images as .jpg and save pcd files in binary mode.
+
+    viewer -i 55 -p 6 -t .jpg -b
 
 
 Dependencies
@@ -29,6 +43,7 @@ Dependencies
 Make sure to have the following packages installed
 
 PCL 1.7
+Boost
 OpenCV
 Openni 2.x (must have the environment variables set)
 QT4

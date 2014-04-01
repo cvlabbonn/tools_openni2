@@ -12,6 +12,10 @@ add_definitions(${PCL_DEFINITIONS})
 
 message("\n\nFound PCL\n\n")
 
+# Boost library required
+find_package( Boost 1.40 REQUIRED COMPONENTS program_options)
+include_directories( ${Boost_INCLUDE_DIR} )
+
 # Opencv required
 find_package(OpenCV REQUIRED)
 include_directories(${OPENCV_INCLUDE_DIRS})
@@ -77,6 +81,6 @@ ADD_EXECUTABLE(viewer ${VIEWER_SOURCES}
     ${QT_FORMS})
 
 
-TARGET_LINK_LIBRARIES(viewer ${QT_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS} OpenNI2)
+TARGET_LINK_LIBRARIES(viewer ${QT_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS} OpenNI2 ${Boost_PROGRAM_OPTIONS_LIBRARY})
 
 

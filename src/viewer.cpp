@@ -1,7 +1,7 @@
 #include "viewer.h"
 #include <openni/XnPropNames.h>
 
-Viewer::Viewer()
+Viewer::Viewer(int argc, char *argv[])
 {
     std::cout << "Initializing device and sensors" << std::endl;
     // initialize global variables
@@ -16,6 +16,25 @@ Viewer::Viewer()
     limitz_max = 0;
     frame_width = 640;
     frame_height = 480;
+
+    //load arguments
+    po::options_description desc("Allowed options");
+    desc.add_options()
+        ("help,h", "help")
+        ("imgtype,t", po::value<std::string>(&img_type)->default_value(".png"), "image file type")
+        ("initial,i", po::value<int>(&initial_frame)->default_value(0), "Initial number of the frame")
+        ("padding,p", po::value<int>(&padding)->default_value(3), "Pad the number with 0 to a set amount of digits")
+        ("binary,b", po::bool_switch(&binary_mode)->default_value(false), "Save pcd files in binary mode")
+    ;
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);
+
+    if( vm.count("help") || vm.count("h") ) {
+        std::cout << desc << "\n";
+        exit(0);
+    }
 
     // initialize device and sensors
     rc = openni::OpenNI::initialize();

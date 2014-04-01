@@ -71,20 +71,21 @@ void Viewer::create_dir(){
 
 void Viewer::saveToDisk(){
 
+    int j = initial_frame;
     for(int i = 0; i < (int)point_clouds.size() ; i++){
         std::cout << "Saving frame " << i << std::endl;
         // generate filenames
-        std::ostringstream     ss, srgb;
-        ss << std::setfill('0') << std::setw(3/*8*/);
-        ss << i/*+1*/ ;
+        std::ostringstream ss;
+        ss << std::setfill('0') << std::setw(padding);
+        ss << j ;
         std::string fileNamePcl = folder_name + "/pcl" + "/" + ss.str() + ".pcd";
-        std::string fileNameRGB = folder_name + "/rgb" + "/" + ss.str() + ".png";
-        std::string fileNameRGBD = folder_name + "/rgbd" + "/" + ss.str() + ".png";
-        std::string fileNameDepthS = folder_name + "/depth_viz" + "/" + ss.str() + ".png";
+        std::string fileNameRGB = folder_name + "/rgb" + "/" + ss.str() + img_type;
+        std::string fileNameRGBD = folder_name + "/rgbd" + "/" + ss.str() + img_type;
+        std::string fileNameDepthS = folder_name + "/depth_viz" + "/" + ss.str() + img_type;
         std::string fileNameDepthI = folder_name + "/depth" + "/" + ss.str() + ".yml";
 
         // save pcl
-        pcl::io::savePCDFile( fileNamePcl, point_clouds[i], false );
+        pcl::io::savePCDFile( fileNamePcl, point_clouds[i], binary_mode );
 
         // save RGB, RGBD and Depths images
         cv::imwrite(fileNameRGB, rgb_images[i]);
@@ -96,6 +97,6 @@ void Viewer::saveToDisk(){
         cv::FileStorage fs(fileNameDepthI, cv::FileStorage::WRITE);
         fs << "depth" << raw_depth[i];
         fs.release();
-
+        j++;
     }
 }
