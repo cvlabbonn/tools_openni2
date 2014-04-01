@@ -19,13 +19,14 @@ int Viewer::loop(){
                 const openni::DepthPixel* depthBuffer = (const openni::DepthPixel*)depthFrame.getData();;
                 frameDepth.create(depthFrame.getHeight(), depthFrame.getWidth(), CV_16UC1);
                 memcpy( frameDepth.data, depthBuffer, depthFrame.getHeight()*depthFrame.getWidth()*sizeof(uint16_t) );
-
+                cv::flip(frameDepth,frameDepth,1);
 
 
                 // color image
                 const openni::RGB888Pixel* imageBuffer = (const openni::RGB888Pixel*)colorFrame.getData();
                 frame.create(colorFrame.getHeight(), colorFrame.getWidth(), CV_8UC3);
                 memcpy( frame.data, imageBuffer, 3*colorFrame.getHeight()*colorFrame.getWidth()*sizeof(uint8_t) );
+                cv::flip(frame,frame,1);
                 cv::cvtColor(frame,bgrMat,CV_BGR2RGB);
                 cv::imshow("Color", bgrMat);
 
@@ -39,9 +40,9 @@ int Viewer::loop(){
 
                 if (saveMemory){
                     // create point cloud
-                    get_pcl(bgrMat, frameDepth, cloud);
-                    cloud.width = frameDepth.cols;
-                    cloud.height   = frameDepth.rows;
+                    get_pcl(bgrMat, depth_thresh, cloud);
+                    cloud.width = depth_thresh.cols;
+                    cloud.height   = depth_thresh.rows;
 
                     //store all data
                     point_clouds.push_back(cloud);

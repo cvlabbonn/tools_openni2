@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Limits</string>
   </property>
   <widget class="QPlainTextEdit" name="myTextEdit_limits_Z">
    <property name="geometry">
@@ -49,7 +49,7 @@
     <string>The Z values are in mili meters and the X and Y values are in pixels.</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>

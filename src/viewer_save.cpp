@@ -70,6 +70,7 @@ void Viewer::create_dir(){
 
 
 void Viewer::saveToDisk(){
+
     for(int i = 0; i < (int)point_clouds.size() ; i++){
         std::cout << "Saving frame " << i << std::endl;
         // generate filenames

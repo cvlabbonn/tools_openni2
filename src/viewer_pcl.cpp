@@ -35,3 +35,30 @@ void Viewer::get_pcl(cv::Mat& color_mat, cv::Mat& depth_mat, pcl::PointCloud<typ
         }
     }
 }
+
+
+void Viewer::get_images(cv::Mat& img_rgb, cv::Mat& img_depth, pcl::PointCloud<typePoint>& cloud ) {
+
+        img_rgb = cv::Mat( cloud.height, cloud.width, CV_8UC3, 0.f );
+        img_depth = cv::Mat( cloud.height, cloud.width, CV_32FC1, 0.f );
+
+        int idx = 0;
+        for( unsigned int y = 0; y < cloud.height; y++ ) {
+                for( unsigned int x = 0; x < cloud.width; x++ ) {
+
+                        const pcl::PointXYZRGB& p = cloud.points[idx];
+
+                        cv::Vec3b px;
+                        px[0] = p.b;
+                        px[1] = p.g;
+                        px[2] = p.r;
+
+                        img_rgb.at< cv::Vec3b >( y, x ) = px;
+                        img_depth.at< float >( y, x ) = p.z;
+
+                        idx++;
+
+                }
+        }
+
+}
