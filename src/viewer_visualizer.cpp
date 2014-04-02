@@ -27,7 +27,7 @@ int Viewer::loop(){
                 frame.create(colorFrame.getHeight(), colorFrame.getWidth(), CV_8UC3);
                 memcpy( frame.data, imageBuffer, 3*colorFrame.getHeight()*colorFrame.getWidth()*sizeof(uint8_t) );
                 cv::flip(frame,frame,1);
-                cv::cvtColor(frame,bgrMat,CV_BGR2RGB);
+                cv::cvtColor(frame,bgrMat,CV_RGB2BGR);
                 cv::imshow("Color", bgrMat);
 
                 // create the rgbd image

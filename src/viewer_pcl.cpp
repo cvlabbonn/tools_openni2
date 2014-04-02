@@ -6,10 +6,11 @@ void Viewer::get_pcl(cv::Mat& color_mat, cv::Mat& depth_mat, pcl::PointCloud<typ
     for (int j = 0; j< depth_mat.rows; j ++){
         for(int i = 0; i < depth_mat.cols; i++){
             // the RGB data is created
-            PCD_RGB   pcd_RGB;
-            pcd_RGB.R  = color_mat.at<cv::Vec3b>(j,i)[0];
-            pcd_RGB.G  = color_mat.at<cv::Vec3b>(j,i)[1];
-            pcd_RGB.B  = color_mat.at<cv::Vec3b>(j,i)[2];
+            PCD_BGRA   pcd_BGRA;
+                       pcd_BGRA.B  = color_mat.at<cv::Vec3b>(j,i)[0];
+                       pcd_BGRA.R  = color_mat.at<cv::Vec3b>(j,i)[2];
+                       pcd_BGRA.G  = color_mat.at<cv::Vec3b>(j,i)[1];
+                       pcd_BGRA.A  = 0;
 
             typePoint vertex;
             int depth_value = (int) depth_mat.at<unsigned short>(j,i);
@@ -27,11 +28,10 @@ void Viewer::get_pcl(cv::Mat& color_mat, cv::Mat& depth_mat, pcl::PointCloud<typ
                 vertex.y   = bad_point;
                 vertex.z   = bad_point;
             }
-            vertex.rgb = pcd_RGB.RGB_float;
+            vertex.rgb = pcd_BGRA.RGB_float;
 
             // the point is pushed back in the cloud
             cloud.points.push_back( vertex );
-
         }
     }
 }
@@ -46,7 +46,7 @@ void Viewer::get_images(cv::Mat& img_rgb, cv::Mat& img_depth, pcl::PointCloud<ty
         for( unsigned int y = 0; y < cloud.height; y++ ) {
                 for( unsigned int x = 0; x < cloud.width; x++ ) {
 
-                        const pcl::PointXYZRGB& p = cloud.points[idx];
+                        const typePoint& p = cloud.points[idx];
 
                         cv::Vec3b px;
                         px[0] = p.b;

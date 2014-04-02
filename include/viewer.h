@@ -14,19 +14,20 @@
 #include <boost/program_options.hpp>
 namespace po = boost::program_options;
 
-typedef pcl::PointXYZRGB typePoint;
+typedef pcl::PointXYZRGBA typePoint;
 const float bad_point = std::numeric_limits<float>::quiet_NaN();
 
 /**
   * Define the union structure for the RGB information in the PCD file
  */
-union PCD_RGB
+union PCD_BGRA
 {
     struct
     {
-        uchar R; // LSB
+        uchar B; // LSB
         uchar G; // ---
-        uchar B; // MSB
+        uchar R; // MSB
+        uchar A; //
     };
     float RGB_float;
     uint  RGB_uint;
