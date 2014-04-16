@@ -3,7 +3,6 @@
 int Viewer::loop(){
     char key;
     // loop until esc is pressed
-    //device.setImageRegistrationMode(openni::IMAGE_REGISTRATION_DEPTH_TO_COLOR );
     while(!exitFlag)
         if(device.getSensorInfo(openni::SENSOR_DEPTH) != NULL){
             // read the next frame
@@ -11,7 +10,6 @@ int Viewer::loop(){
             color.readFrame(&colorFrame);
             // make sure the data is valid
             if(depthFrame.isValid() && colorFrame.isValid()){
-                pcl::PointCloud<typePoint> cloud;
                 cv::Mat normDepth, rgbd, depth_thresh;
                 //process both images
 
@@ -39,13 +37,7 @@ int Viewer::loop(){
                 cv::imshow("Depth", normDepth);
 
                 if (saveMemory){
-                    // create point cloud
-                    get_pcl(bgrMat, depth_thresh, cloud);
-                    cloud.width = depth_thresh.cols;
-                    cloud.height   = depth_thresh.rows;
-
                     //store all data
-                    point_clouds.push_back(cloud);
                     rgb_images.push_back( bgrMat.clone() );
                     rgbd_images.push_back( rgbd.clone());
                     raw_depth.push_back( depth_thresh.clone() );

@@ -72,7 +72,7 @@ void Viewer::create_dir(){
 void Viewer::saveToDisk(){
 
     int j = initial_frame;
-    for(int i = 0; i < (int)point_clouds.size() ; i++){
+    for(int i = 0; i < (int)raw_depth.size() ; i++){
         std::cout << "Saving frame " << i << std::endl;
         // generate filenames
         std::ostringstream ss;
@@ -85,7 +85,12 @@ void Viewer::saveToDisk(){
         std::string fileNameDepthI = folder_name + "/depth" + "/" + ss.str() + ".yml";
 
         // save pcl
-        pcl::io::savePCDFile( fileNamePcl, point_clouds[i], binary_mode );
+        pcl::PointCloud<typePoint> cloud;
+        get_pcl(rgb_images[i], raw_depth[i], cloud);
+        cloud.width = raw_depth[i].cols;
+        cloud.height   = raw_depth[i].rows;
+        pcl::io::savePCDFile( fileNamePcl, cloud, binary_mode );
+
 
         // save RGB, RGBD and Depths images
         cv::imwrite(fileNameRGB, rgb_images[i]);
