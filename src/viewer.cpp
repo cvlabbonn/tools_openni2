@@ -1,5 +1,4 @@
 #include "viewer.h"
-#include <openni/XnPropNames.h>
 
 Viewer::Viewer(int argc, char *argv[])
 {
@@ -24,8 +23,11 @@ Viewer::Viewer(int argc, char *argv[])
         ("imgtype,t", po::value<std::string>(&img_type)->default_value(".png"), "image file type")
         ("initial,i", po::value<int>(&initial_frame)->default_value(0), "Initial number of the frame")
         ("padding,p", po::value<int>(&padding)->default_value(3), "Pad the number with 0 to a set amount of digits")
-        ("binary,b", po::bool_switch(&binary_mode)->default_value(false), "Save pcd files in binary mode")
+        ("ascii,a", po::bool_switch(&binary_mode)->default_value(false), "Save pcd files in ascii mode")
+        ("no-oni", po::bool_switch(&no_oni)->default_value(false), "Do not save .oni record.")
     ;
+    //change the binary mode depending on the ascii value
+    binary_mode = !binary_mode;
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -85,6 +87,9 @@ void Viewer::close_all(){
     color.stop();
     color.destroy();
     device.close();
+    recorder.stop();
+    recorder.destroy();
+    //QFile::remove("recording.oni");
     openni::OpenNI::shutdown();
     std::cout << "Sensors stopped" << std::endl;
 }

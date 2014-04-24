@@ -62,6 +62,13 @@ void Viewer::create_dir(){
             std::cout << "The folder " << (folder + "/rgbd") << " could not be created and the program will exit." << std::endl;
             exit(0);
         }
+        ret = mkdir((folder + "//oni").c_str(), 0775);
+        if (ret == 0){
+            std::cout << "The folder " << (folder + "/oni") << " was created." << std::endl;
+        } else {
+            std::cout << "The folder " << (folder + "/oni") << " could not be created and the program will exit." << std::endl;
+            exit(0);
+        }
     }else {
         std::cout << "The folder " << (folder) << " could not be created and the program will exit." << std::endl;
         exit(0);
@@ -72,6 +79,8 @@ void Viewer::create_dir(){
 void Viewer::saveToDisk(){
 
     int j = initial_frame;
+    //move oni file to destination
+    QFile::rename(QString("recording.oni"), QString(QString::fromStdString(folder_name) + QString("/oni/recording.oni")));
     for(int i = 0; i < (int)raw_depth.size() ; i++){
         std::cout << "Saving frame " << i << std::endl;
         // generate filenames
@@ -102,6 +111,7 @@ void Viewer::saveToDisk(){
         cv::FileStorage fs(fileNameDepthI, cv::FileStorage::WRITE);
         fs << "depth" << raw_depth[i];
         fs.release();
+
         j++;
     }
 }

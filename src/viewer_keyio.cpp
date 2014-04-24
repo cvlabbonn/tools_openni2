@@ -14,8 +14,24 @@ void Viewer::key_parse(char key){
             point_clouds.clear();
             raw_depth.clear();
             depth_show.clear();
+            //initialize the recorder
+            if (!no_oni){
+                if(recorder.isValid()){
+                    recorder.stop();
+                    recorder.destroy();
+                }
+                recorder.create("recording.oni");
+                recorder.attach(depth);
+                recorder.attach(color);
+                recorder.start();
+            }
+
         }
         else {
+            if(!no_oni){
+                recorder.stop();
+                recorder.destroy();
+            }
             std::cout << "STOPP saving in MEMORY - " << FRAME_COUNTER << " frames" << std::endl;
         }
         FRAME_COUNTER = 0;
@@ -32,5 +48,9 @@ void Viewer::key_parse(char key){
             point_clouds.clear();
             raw_depth.clear();
             depth_show.clear();
+            if(recorder.isValid()){
+                recorder.stop();
+                recorder.destroy();
+            }
     }
 }

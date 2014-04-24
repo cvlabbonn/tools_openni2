@@ -12,6 +12,8 @@
 #include <time.h>
 #include <limits>
 #include <boost/program_options.hpp>
+#include <QFile>
+
 namespace po = boost::program_options;
 
 typedef pcl::PointXYZRGBA typePoint;
@@ -43,6 +45,7 @@ public:
     cv::Mat frame, frameDepth, bgrMat;
     openni::VideoStream depth, color;
     openni::VideoFrameRef depthFrame, colorFrame;
+    openni::Recorder recorder;
 
     std::vector<cv::Mat> rgb_images;
     std::vector<cv::Mat> raw_depth;
@@ -68,6 +71,7 @@ public:
     bool saveMemory;
     bool saveDisk;
     bool binary_mode;
+    bool no_oni;
 
 
     Viewer(int argc, char *argv[]);
