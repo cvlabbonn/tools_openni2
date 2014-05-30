@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     sliders s;
     s.viewer = &viewer;
     s.set_sliders_max();
+    s.set_initial_variables();
     s.show();
     int ret  = viewer.loop();
     if (ret == 0){

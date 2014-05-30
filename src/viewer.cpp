@@ -7,6 +7,10 @@ Viewer::Viewer(int argc, char *argv[])
     exitFlag = false;
     saveMemory = false;
     saveDisk = false;
+    save_depth = true;
+    save_rgb = true;
+    save_pcd = true;
+    save_rgbd = true;
     limitx_min = 0;
     limitx_max = 0;
     limity_min = 0;

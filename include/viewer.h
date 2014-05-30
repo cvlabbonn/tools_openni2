@@ -72,6 +72,10 @@ public:
     bool saveDisk;
     bool binary_mode;
     bool no_oni;
+    bool save_depth;
+    bool save_rgb;
+    bool save_pcd;
+    bool save_rgbd;
 
 
     Viewer(int argc, char *argv[]);

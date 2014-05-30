@@ -87,6 +87,20 @@ void sliders::set_sliders_max(){
 
 }
 
+void sliders::set_initial_variables(){
+    if (viewer->binary_mode){
+        ui->binaryRadioButton->setChecked(true);
+        ui->asciiRadioButton->setChecked(false);
+    } else {
+        ui->binaryRadioButton->setChecked(false);
+        ui->asciiRadioButton->setChecked(true);
+    }
+    ui->image_extension->setText( QString::fromStdString(viewer->img_type));
+    ui->padding_size->setText( QString::number(viewer->padding));
+    ui->starting_frame->setText( QString::number(viewer->initial_frame) );
+    ui->oni_checkbox->setChecked(!viewer->no_oni);
+}
+
 void sliders::on_whiteBalance_toggled(bool checked)
 {
     openni::CameraSettings* settings = viewer->color.getCameraSettings();
@@ -114,4 +128,60 @@ void sliders::on_exposure_sliders_actionTriggered(int action)
     settings->setAutoExposureEnabled(true);
     settings->setExposure(ui->exposure_sliders->value());
     ui->exposure_value->setText(QString::number(ui->exposure_sliders->value()));
+}
+
+void sliders::on_image_extension_textChanged(const QString &arg1)
+{
+    viewer->img_type = arg1.toStdString();
+}
+
+void sliders::on_starting_frame_textChanged(const QString &arg1)
+{
+    viewer->initial_frame = arg1.toInt();
+    ui->starting_frame->setText( QString::number(viewer->initial_frame) );
+}
+
+void sliders::on_padding_size_textChanged(const QString &arg1)
+{
+    viewer->padding = arg1.toInt();
+    ui->padding_size->setText( QString::number(viewer->padding));
+}
+
+void sliders::on_asciiRadioButton_toggled(bool checked)
+{
+    if (checked){
+        viewer->binary_mode = false;
+    }
+}
+
+void sliders::on_binaryRadioButton_toggled(bool checked)
+{
+    if (checked){
+        viewer->binary_mode = true;
+    }
+}
+
+void sliders::on_depth_checkbox_toggled(bool checked)
+{
+    viewer->save_depth = checked;
+}
+
+void sliders::on_rgb_checkbox_toggled(bool checked)
+{
+    viewer->save_rgb = checked;
+}
+
+void sliders::on_rgbd_checkbox_toggled(bool checked)
+{
+    viewer->save_rgbd = checked;
+}
+
+void sliders::on_pcd_checkbox_toggled(bool checked)
+{
+    viewer->save_pcd = checked;
+}
+
+void sliders::on_oni_checkbox_toggled(bool checked)
+{
+    viewer->no_oni = !checked;
 }
