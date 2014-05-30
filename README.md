@@ -26,7 +26,9 @@ These are the possible arguments you may pass to the program
       -t [ --imgtype ] arg (=.png) image file type
       -i [ --initial ] arg (=0)    Initial number of the frame
       -p [ --padding ] arg (=3)    Pad the number with 0 to a set amount of digits
-      -b [ --binary ]              Save pcd files in binary mode
+      -a [ --ascii ]               Save pcd files in ascii mode
+      --no-oni                     Do not save .oni record.
+
 
 Example:
 - start in frame 55, with a padding of 6, with images as .jpg and save pcd files in binary mode.
