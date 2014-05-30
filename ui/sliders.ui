@@ -335,6 +335,9 @@
    </layout>
   </widget>
   <widget class="QCheckBox" name="whiteBalance">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>30</x>
