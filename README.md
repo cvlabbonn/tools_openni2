@@ -39,22 +39,22 @@ Dependencies
 
 Make sure to have the following packages installed
 
-PCL 1.7
-Boost
-OpenCV
-Openni 2.x (must have the environment variables set)
-QT4
-CMake
+- PCL 1.7
+- Boost
+- OpenCV
+- Openni 2.x (must have the environment variables set)
+- QT4
+- CMake
 
 Building
 =============
 
 Just run the following commands
 
-mkdir build
-cd build
-cmake ..
-make
+    mkdir build
+    cd build
+    cmake ..
+    make
 
 Running
 =============
