@@ -28,6 +28,12 @@ private slots:
 
     void on_myButton_update_limit_Z_clicked();
 
+    void on_whiteBalance_toggled(bool checked);
+
+    void on_auto_exposure_toggled(bool checked);
+
+    void on_exposure_sliders_actionTriggered(int action);
+
 private:
     Ui::sliders *ui;
 };

@@ -86,3 +86,32 @@ void sliders::set_sliders_max(){
 
 
 }
+
+void sliders::on_whiteBalance_toggled(bool checked)
+{
+    openni::CameraSettings* settings = viewer->color.getCameraSettings();
+    settings->setAutoWhiteBalanceEnabled(checked);
+}
+
+void sliders::on_auto_exposure_toggled(bool checked)
+{
+    openni::CameraSettings* settings = viewer->color.getCameraSettings();
+    settings->setAutoExposureEnabled(checked);
+    if(checked){
+        settings->setExposure(0);
+        ui->exposure_value->setText("");
+    } else {
+        settings->setExposure(ui->exposure_sliders->value());
+        ui->exposure_value->setText(QString::number(ui->exposure_sliders->value()));
+    }
+}
+
+
+void sliders::on_exposure_sliders_actionTriggered(int action)
+{
+    ui->auto_exposure->setChecked(false);
+    openni::CameraSettings* settings = viewer->color.getCameraSettings();
+    settings->setAutoExposureEnabled(true);
+    settings->setExposure(ui->exposure_sliders->value());
+    ui->exposure_value->setText(QString::number(ui->exposure_sliders->value()));
+}
