@@ -9,8 +9,8 @@ Viewer::Viewer(int argc, char *argv[])
     saveDisk = false;
     save_depth = true;
     save_rgb = true;
-    save_pcd = true;
-    save_rgbd = true;
+    save_pcd = false;
+    save_rgbd = false;
     save_yml = false;
     img_type = ".png";
     limitx_min = 0;
@@ -29,11 +29,11 @@ Viewer::Viewer(int argc, char *argv[])
         ("imgtype,t", po::value<std::string>(&img_type)->default_value(".png"), "image file type")
         ("initial,i", po::value<int>(&initial_frame)->default_value(0), "Initial number of the frame")
         ("padding,p", po::value<int>(&padding)->default_value(3), "Pad the number with 0 to a set amount of digits")
-        ("ascii,a", po::bool_switch(&binary_mode)->default_value(false), "Save pcd files in ascii mode")
-        ("no-oni", po::bool_switch(&no_oni)->default_value(false), "Do not save .oni record.")
+        ("ascii,a", po::bool_switch(&binary_mode)->default_value(true), "Save pcd files in ascii mode")
+        ("oni", po::bool_switch(&no_oni)->default_value(true), "Save .oni record.")
     ;
     //change the binary mode depending on the ascii value
-    binary_mode = !binary_mode;
+//    binary_mode = !binary_mode;
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);

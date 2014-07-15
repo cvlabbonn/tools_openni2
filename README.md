@@ -7,9 +7,9 @@ The other 3 windows will show in real time the RGB feed from the camera (color w
 
 During the execution, it is possible to use some keys to give commands to the program. You may use the following keys:
 
-"Esc"			To exit the program correctly
+["Esc"|"q"|"Q"]			To exit the program correctly
 " "			The space key will start/stop saving the data into memory
-["s"|"S"]		To save the data in memory to the hard disk (it will create a folder) 
+["s"|"S"]		To save the data in memory to the hard disk (it will create a folder)
 
 The program will generate 1 folder with 5 subfolders:
 - **depth**: raw depth matrix in yml format. It was saved usin opencv and can be easily parsed using opencv again. (see notes)
@@ -27,7 +27,7 @@ These are the possible arguments you may pass to the program
       -i [ --initial ] arg (=0)    Initial number of the frame
       -p [ --padding ] arg (=3)    Pad the number with 0 to a set amount of digits
       -a [ --ascii ]               Save pcd files in ascii mode
-      --no-oni                     Do not save .oni record.
+      --oni                        Save .oni record.
 
 
 Example:
