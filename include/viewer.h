@@ -76,6 +76,7 @@ public:
     bool save_rgb;
     bool save_pcd;
     bool save_rgbd;
+    bool save_yml;
 
 
     Viewer(int argc, char *argv[]);

@@ -105,7 +105,13 @@ void Viewer::saveToDisk(){
         std::string fileNameRGB = folder_name + "/rgb" + "/" + ss.str() + img_type;
         std::string fileNameRGBD = folder_name + "/rgbd" + "/" + ss.str() + img_type;
         std::string fileNameDepthS = folder_name + "/depth_viz" + "/" + ss.str() + img_type;
-        std::string fileNameDepthI = folder_name + "/depth" + "/" + ss.str() + ".yml";
+        std::string fileNameDepthI = "";
+        if (!save_yml){
+            fileNameDepthI = folder_name + "/depth" + "/" + ss.str() + ".png";
+        } else {
+            fileNameDepthI = folder_name + "/depth" + "/" + ss.str() + ".yml";
+        }
+
 
         // save pcl
         if (save_pcd){
@@ -129,10 +135,16 @@ void Viewer::saveToDisk(){
             cv::imwrite(fileNameDepthS, depth_show[i]);
 
             // save the depth info
-
-            cv::FileStorage fs(fileNameDepthI, cv::FileStorage::WRITE);
-            fs << "depth" << raw_depth[i];
-            fs.release();
+            if (save_yml){
+                cv::FileStorage fs(fileNameDepthI, cv::FileStorage::WRITE);
+                fs << "depth" << raw_depth[i];
+                fs.release();
+            } else {
+                std::vector<int> params;
+                params.push_back( CV_IMWRITE_PNG_COMPRESSION );
+                params.push_back( 0 );
+                cv::imwrite(fileNameDepthI, raw_depth[i], params);
+            }
         }
 
         j++;

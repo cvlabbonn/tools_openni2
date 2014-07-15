@@ -40,7 +40,7 @@ void Viewer::get_pcl(cv::Mat& color_mat, cv::Mat& depth_mat, pcl::PointCloud<typ
 void Viewer::get_images(cv::Mat& img_rgb, cv::Mat& img_depth, pcl::PointCloud<typePoint>& cloud ) {
 
         img_rgb = cv::Mat( cloud.height, cloud.width, CV_8UC3, 0.f );
-        img_depth = cv::Mat( cloud.height, cloud.width, CV_32FC1, 0.f );
+        img_depth = cv::Mat( cloud.height, cloud.width, CV_16UC1, 0.f );
 
         int idx = 0;
         for( unsigned int y = 0; y < cloud.height; y++ ) {
@@ -54,7 +54,7 @@ void Viewer::get_images(cv::Mat& img_rgb, cv::Mat& img_depth, pcl::PointCloud<ty
                         px[2] = p.r;
 
                         img_rgb.at< cv::Vec3b >( y, x ) = px;
-                        img_depth.at< float >( y, x ) = p.z;
+                        img_depth.at< unsigned short >( y, x ) = (unsigned short) p.z;
 
                         idx++;
 

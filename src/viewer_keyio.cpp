@@ -1,7 +1,7 @@
 #include <viewer.h>
 
 void Viewer::key_parse(char key){
-    if (key == 27){
+    if (key == 27 || key == 'q' || key == 'Q'){
         exitFlag = true;
     }
     // save the pcl in to memory

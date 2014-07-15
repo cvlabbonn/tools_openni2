@@ -11,6 +11,8 @@ Viewer::Viewer(int argc, char *argv[])
     save_rgb = true;
     save_pcd = true;
     save_rgbd = true;
+    save_yml = false;
+    img_type = ".png";
     limitx_min = 0;
     limitx_max = 0;
     limity_min = 0;

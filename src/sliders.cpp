@@ -95,7 +95,6 @@ void sliders::set_initial_variables(){
         ui->binaryRadioButton->setChecked(false);
         ui->asciiRadioButton->setChecked(true);
     }
-    ui->image_extension->setText( QString::fromStdString(viewer->img_type));
     ui->padding_size->setText( QString::number(viewer->padding));
     ui->starting_frame->setText( QString::number(viewer->initial_frame) );
     ui->oni_checkbox->setChecked(!viewer->no_oni);
@@ -130,11 +129,6 @@ void sliders::on_exposure_sliders_actionTriggered(int action)
     ui->exposure_value->setText(QString::number(ui->exposure_sliders->value()));
 }
 
-void sliders::on_image_extension_textChanged(const QString &arg1)
-{
-    viewer->img_type = arg1.toStdString();
-}
-
 void sliders::on_starting_frame_textChanged(const QString &arg1)
 {
     viewer->initial_frame = arg1.toInt();
@@ -164,24 +158,69 @@ void sliders::on_binaryRadioButton_toggled(bool checked)
 void sliders::on_depth_checkbox_toggled(bool checked)
 {
     viewer->save_depth = checked;
+    ui->png_depth->setEnabled(checked);
+    ui->yml_depth->setEnabled(checked);
 }
 
 void sliders::on_rgb_checkbox_toggled(bool checked)
 {
     viewer->save_rgb = checked;
+    ui->jpg_rgb->setEnabled(checked || ui->rgbd_checkbox->isChecked());
+    ui->png_rgb->setEnabled(checked || ui->rgbd_checkbox->isChecked());
+    ui->tif_rgb->setEnabled(checked || ui->rgbd_checkbox->isChecked());
 }
 
 void sliders::on_rgbd_checkbox_toggled(bool checked)
 {
     viewer->save_rgbd = checked;
+    ui->jpg_rgb->setEnabled(checked || ui->rgb_checkbox->isChecked());
+    ui->png_rgb->setEnabled(checked || ui->rgb_checkbox->isChecked());
+    ui->tif_rgb->setEnabled(checked || ui->rgb_checkbox->isChecked());
 }
 
 void sliders::on_pcd_checkbox_toggled(bool checked)
 {
     viewer->save_pcd = checked;
+    ui->asciiRadioButton->setEnabled(checked);
+    ui->binaryRadioButton->setEnabled(checked);
 }
 
 void sliders::on_oni_checkbox_toggled(bool checked)
 {
     viewer->no_oni = !checked;
+}
+
+void sliders::on_png_depth_toggled(bool checked)
+{
+    if (checked){
+        viewer->save_yml = false;
+    }
+}
+
+void sliders::on_yml_depth_toggled(bool checked)
+{
+    if (checked){
+        viewer->save_yml = true;
+    }
+}
+
+void sliders::on_png_rgb_toggled(bool checked)
+{
+    if (checked){
+       viewer->img_type = ".png";
+    }
+}
+
+void sliders::on_jpg_rgb_toggled(bool checked)
+{
+    if (checked){
+       viewer->img_type = ".jpg";
+    }
+}
+
+void sliders::on_tif_rgb_toggled(bool checked)
+{
+    if (checked){
+       viewer->img_type = ".tif";
+    }
 }

@@ -35,8 +35,6 @@ private slots:
 
     void on_exposure_sliders_actionTriggered(int action);
 
-    void on_image_extension_textChanged(const QString &arg1);
-
     void on_starting_frame_textChanged(const QString &arg1);
 
     void on_padding_size_textChanged(const QString &arg1);
@@ -54,6 +52,16 @@ private slots:
     void on_pcd_checkbox_toggled(bool checked);
 
     void on_oni_checkbox_toggled(bool checked);
+
+    void on_png_depth_toggled(bool checked);
+
+    void on_yml_depth_toggled(bool checked);
+
+    void on_png_rgb_toggled(bool checked);
+
+    void on_jpg_rgb_toggled(bool checked);
+
+    void on_tif_rgb_toggled(bool checked);
 
 private:
     Ui::sliders *ui;
