@@ -11,12 +11,11 @@
 #include <pcl/io/file_io.h>
 #include <time.h>
 #include <limits>
-#include <boost/program_options.hpp>
 #include <QFile>
 
-namespace po = boost::program_options;
 
 typedef pcl::PointXYZRGBA typePoint;
+typedef pcl::PointXYZ colorlessPoint;
 const float bad_point = std::numeric_limits<float>::quiet_NaN();
 
 /**
@@ -88,6 +87,7 @@ public:
     void createRGBD(cv::Mat& depth_mat, cv::Mat& color_mat, cv::Mat& dst_rgbd, cv::Mat& dst_depth);
     void key_parse(char key);
     void get_pcl(cv::Mat& color, cv::Mat& depth, pcl::PointCloud<typePoint>& cloud );
+    void get_colorless_pcl(cv::Mat& depth_mat, pcl::PointCloud<colorlessPoint>& colorless_cloud );
     void get_images(cv::Mat& color_mat, cv::Mat& depth_mat, pcl::PointCloud<typePoint>& cloud );
     void create_dir();
     void saveToDisk();

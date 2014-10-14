@@ -22,7 +22,9 @@ void Viewer::key_parse(char key){
                 }
                 recorder.create("recording.oni");
                 recorder.attach(depth);
-                recorder.attach(color);
+                if(!only_depth){
+                    recorder.attach(color);
+                }
                 recorder.start();
             }
 

@@ -115,15 +115,19 @@ void Viewer::saveToDisk(){
 
         // save pcl
         if (save_pcd){
-            pcl::PointCloud<typePoint> cloud;
             if (!only_depth){
+                pcl::PointCloud<typePoint> cloud;
                 get_pcl(rgb_images[i], raw_depth[i], cloud);
+                cloud.width = raw_depth[i].cols;
+                cloud.height   = raw_depth[i].rows;
+                pcl::io::savePCDFile( fileNamePcl, cloud, binary_mode );
             } else {
-                get_pcl(rgb_images[i], raw_depth[i], cloud);
+                pcl::PointCloud<colorlessPoint> cloud;
+                get_colorless_pcl(raw_depth[i], cloud);
+                cloud.width = raw_depth[i].cols;
+                cloud.height   = raw_depth[i].rows;
+                pcl::io::savePCDFile( fileNamePcl, cloud, binary_mode );
             }
-            cloud.width = raw_depth[i].cols;
-            cloud.height   = raw_depth[i].rows;
-            pcl::io::savePCDFile( fileNamePcl, cloud, binary_mode );
         }
 
 
