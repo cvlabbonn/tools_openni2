@@ -1,6 +1,6 @@
 #include <viewer.h>
 
-void Viewer::error_manager(int error){
+void Viewer::error_manager(int error, bool critical){
     switch(error){
     case 1:
         printf("Initialization failed:\n%s\n", openni::OpenNI::getExtendedError());
@@ -25,5 +25,6 @@ void Viewer::error_manager(int error){
     }
 
     openni::OpenNI::shutdown();
-    exit(1);
+    if (critical)
+        exit(1);
 }

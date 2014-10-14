@@ -31,6 +31,7 @@ Viewer::Viewer(int argc, char *argv[])
         ("padding,p", po::value<int>(&padding)->default_value(3), "Pad the number with 0 to a set amount of digits")
         ("ascii,a", po::bool_switch(&binary_mode)->default_value(true), "Save pcd files in ascii mode")
         ("oni", po::bool_switch(&no_oni)->default_value(true), "Save .oni record.")
+        ("only-depth,d", po::bool_switch(&only_depth)->default_value(false), "Only process the depth stream.")
     ;
     //change the binary mode depending on the ascii value
 //    binary_mode = !binary_mode;
@@ -49,9 +50,11 @@ Viewer::Viewer(int argc, char *argv[])
     if (rc != openni::STATUS_OK)
         error_manager(1);
 
+
     rc = device.open(openni::ANY_DEVICE);
     if (rc != openni::STATUS_OK)
         error_manager(2);
+
 
     rc = depth.create(device, openni::SENSOR_DEPTH);
     if (rc != openni::STATUS_OK)
@@ -65,33 +68,43 @@ Viewer::Viewer(int argc, char *argv[])
 
     rc = depth.start();
     if (rc != openni::STATUS_OK)
-        error_manager(4);
-    rc = color.create(device, openni::SENSOR_COLOR);
-    if (rc != openni::STATUS_OK)
-        error_manager(5);
+        error_manager(4, true);
+        // try to read the color stream
+        const openni::SensorInfo* tmp= device.getSensorInfo(openni::SENSOR_COLOR);
+        if (tmp != NULL){
+            rc = color.create(device, openni::SENSOR_COLOR);
+            if (rc != openni::STATUS_OK){
+                error_manager(5, true);
+            }
+            if (!only_depth){
+                // set the new resolution and fps
+                openni::VideoMode color_videoMode  = color.getVideoMode();
+                color_videoMode.setResolution(frame_width,frame_height);
+                color_videoMode.setFps(30);
+                color.setVideoMode(color_videoMode);
 
-    // set the new resolution and fps
-    openni::VideoMode color_videoMode  = color.getVideoMode();
-    color_videoMode.setResolution(frame_width,frame_height);
-    color_videoMode.setFps(30);
-    color.setVideoMode(color_videoMode);
+                rc = color.start();
+                if (rc != openni::STATUS_OK)
+                    error_manager(6, true);
 
-    rc = color.start();
-    if (rc != openni::STATUS_OK)
-        error_manager(6);
+                // align the depth and color image
+                device.setImageRegistrationMode(openni::IMAGE_REGISTRATION_DEPTH_TO_COLOR );
+            }
+        } else {
+            only_depth = true;
+        }
+
     std::cout << "Sensors initialized" << std::endl;
-
-    // align the depth and color image
-    device.setImageRegistrationMode(openni::IMAGE_REGISTRATION_DEPTH_TO_COLOR );
-
 }
 
 void Viewer::close_all(){
     std::cout << "Stopping sensors" << std::endl;
     depth.stop();
     depth.destroy();
-    color.stop();
-    color.destroy();
+    if (!only_depth){
+        color.stop();
+        color.destroy();
+    }
     device.close();
     recorder.stop();
     recorder.destroy();

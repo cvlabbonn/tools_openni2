@@ -72,6 +72,7 @@ public:
     bool saveDisk;
     bool binary_mode;
     bool no_oni;
+    bool only_depth;
     bool save_depth;
     bool save_rgb;
     bool save_pcd;
@@ -82,7 +83,7 @@ public:
     Viewer(int argc, char *argv[]);
     ~Viewer();
     void close_all();
-    void error_manager(int error);
+    void error_manager(int error, bool critical = true);
     int loop();
     void createRGBD(cv::Mat& depth_mat, cv::Mat& color_mat, cv::Mat& dst_rgbd, cv::Mat& dst_depth);
     void key_parse(char key);

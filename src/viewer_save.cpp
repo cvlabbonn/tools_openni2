@@ -27,7 +27,7 @@ void Viewer::create_dir(){
         folder_name = folder;
 
         // create subfolders
-        if (save_rgb){
+        if (save_rgb && !only_depth){
             ret = mkdir((folder + "//rgb").c_str(), 0775);
             if (ret == 0){
                 std::cout << "The folder " << (folder + "/rgb") << " was created." << std::endl;
@@ -63,7 +63,7 @@ void Viewer::create_dir(){
                 exit(0);
             }
         }
-        if (save_rgbd){
+        if (save_rgbd && !only_depth){
             ret = mkdir((folder + "//rgbd").c_str(), 0775);
             if (ret == 0){
                 std::cout << "The folder " << (folder + "/rgbd") << " was created." << std::endl;
@@ -116,7 +116,11 @@ void Viewer::saveToDisk(){
         // save pcl
         if (save_pcd){
             pcl::PointCloud<typePoint> cloud;
-            get_pcl(rgb_images[i], raw_depth[i], cloud);
+            if (!only_depth){
+                get_pcl(rgb_images[i], raw_depth[i], cloud);
+            } else {
+                get_pcl(rgb_images[i], raw_depth[i], cloud);
+            }
             cloud.width = raw_depth[i].cols;
             cloud.height   = raw_depth[i].rows;
             pcl::io::savePCDFile( fileNamePcl, cloud, binary_mode );
@@ -124,10 +128,10 @@ void Viewer::saveToDisk(){
 
 
         // save RGB, RGBD and Depths images
-        if (save_rgb){
+        if (save_rgb && !only_depth){
             cv::imwrite(fileNameRGB, rgb_images[i]);
         }
-        if (save_rgbd){
+        if (save_rgbd && !only_depth){
             cv::imwrite(fileNameRGBD, rgbd_images[i]);
         }
 
