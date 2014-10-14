@@ -22,29 +22,6 @@ Viewer::Viewer(int argc, char *argv[])
     frame_width = 640;
     frame_height = 480;
 
-    //load arguments
-    po::options_description desc("Allowed options");
-    desc.add_options()
-        ("help,h", "help")
-        ("imgtype,t", po::value<std::string>(&img_type)->default_value(".png"), "image file type")
-        ("initial,i", po::value<int>(&initial_frame)->default_value(0), "Initial number of the frame")
-        ("padding,p", po::value<int>(&padding)->default_value(3), "Pad the number with 0 to a set amount of digits")
-        ("ascii,a", po::bool_switch(&binary_mode)->default_value(true), "Save pcd files in ascii mode")
-        ("oni", po::bool_switch(&no_oni)->default_value(true), "Save .oni record.")
-        ("only-depth,d", po::bool_switch(&only_depth)->default_value(false), "Only process the depth stream.")
-    ;
-    //change the binary mode depending on the ascii value
-//    binary_mode = !binary_mode;
-
-    po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);
-
-    if( vm.count("help") || vm.count("h") ) {
-        std::cout << desc << "\n";
-        exit(0);
-    }
-
     // initialize device and sensors
     rc = openni::OpenNI::initialize();
     if (rc != openni::STATUS_OK)

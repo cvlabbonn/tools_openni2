@@ -88,16 +88,35 @@ void sliders::set_sliders_max(){
 }
 
 void sliders::set_initial_variables(){
-    if (viewer->binary_mode){
-        ui->binaryRadioButton->setChecked(true);
-        ui->asciiRadioButton->setChecked(false);
-    } else {
-        ui->binaryRadioButton->setChecked(false);
-        ui->asciiRadioButton->setChecked(true);
+    QString temp;
+    // set variables to the viewer
+    viewer->binary_mode = ui->binaryRadioButton->isChecked();
+    temp = ui->padding_size->text();
+    viewer->padding = temp.toInt();
+    temp = ui->starting_frame->text();
+    viewer->initial_frame = temp.toInt();
+    viewer->no_oni = !ui->oni_checkbox->isChecked();
+    if(ui->png_rgb->isChecked()){
+        viewer->img_type = ".png";
+    } else if(ui->jpg_rgb->isChecked()){
+        viewer->img_type = ".jpg";
+    } else if(ui->tif_rgb->isChecked()){
+        viewer->img_type = ".tif";
     }
-    ui->padding_size->setText( QString::number(viewer->padding));
-    ui->starting_frame->setText( QString::number(viewer->initial_frame) );
-    ui->oni_checkbox->setChecked(!viewer->no_oni);
+
+    // disable color options if it is only-depth
+    if(viewer->only_depth){
+        ui->col_im_label->setEnabled(false);
+        ui->png_rgb->setEnabled(false);
+        ui->jpg_rgb->setEnabled(false);
+        ui->tif_rgb->setEnabled(false);
+        ui->rgb_checkbox->setEnabled(false);
+        ui->rgbd_checkbox->setEnabled(false);
+        ui->auto_exposure->setEnabled(false);
+        ui->label_8->setEnabled(false);
+        ui->exposure_sliders->setEnabled(false);
+        ui->exposure_value->setEnabled(false);
+    }
 }
 
 void sliders::on_whiteBalance_toggled(bool checked)
