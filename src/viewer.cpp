@@ -44,6 +44,9 @@ Viewer::Viewer(int argc, char *argv[])
     depth.setVideoMode(depth_videoMode);
 
     rc = depth.start();
+
+    only_depth = false;
+
     if (rc != openni::STATUS_OK)
         error_manager(4, true);
         // try to read the color stream
@@ -53,20 +56,18 @@ Viewer::Viewer(int argc, char *argv[])
             if (rc != openni::STATUS_OK){
                 error_manager(5, true);
             }
-            if (!only_depth){
-                // set the new resolution and fps
-                openni::VideoMode color_videoMode  = color.getVideoMode();
-                color_videoMode.setResolution(frame_width,frame_height);
-                color_videoMode.setFps(30);
-                color.setVideoMode(color_videoMode);
+            // set the new resolution and fps
+            openni::VideoMode color_videoMode  = color.getVideoMode();
+            color_videoMode.setResolution(frame_width,frame_height);
+            color_videoMode.setFps(30);
+            color.setVideoMode(color_videoMode);
 
-                rc = color.start();
-                if (rc != openni::STATUS_OK)
-                    error_manager(6, true);
+            rc = color.start();
+            if (rc != openni::STATUS_OK)
+                error_manager(6, true);
 
-                // align the depth and color image
-                device.setImageRegistrationMode(openni::IMAGE_REGISTRATION_DEPTH_TO_COLOR );
-            }
+            // align the depth and color image
+            device.setImageRegistrationMode(openni::IMAGE_REGISTRATION_DEPTH_TO_COLOR );
         } else {
             only_depth = true;
         }
