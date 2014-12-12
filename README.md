@@ -1,7 +1,7 @@
 tools_openni2
 =============
 
-Simple recording tool using OpenNI2 for Primesense cameras. Once the program starts, it will show 4 windows. The one named Limits will permit to set the x and y limits of the pointcloud (based on the x and y limit of the RGB image) and also set the limits of the depth. Depending on the camera this "z" max limit can be changed to permit changes between close and long ranged cameras.
+Simple recording tool using OpenNI2 for Primesense cameras and structure sensor. Once the program starts, it will show 4 windows (or only 2 if it is a "only-depth" camera). The one named Limits will permit to set the x and y limits of the pointcloud (based on the x and y limit of the RGB image) and also set the limits of the depth. Depending on the camera this "z" max limit can be changed to permit changes between close and long ranged cameras.
 
 The other 3 windows will show in real time the RGB feed from the camera (color window), the visual representation of the depth (depth window), and the visual representation of the registration of the valid depth to the color image (RGBD  window).
 
@@ -18,22 +18,6 @@ The program will generate 1 folder with 5 subfolders:
 - **rgb**: the rgb images captured by the camera
 - **rgbd**: a visualization of the depth and color registration
 
-These are the possible arguments you may pass to the program
-
-    Allowed options:
-
-      -h [ --help ]                help
-      -t [ --imgtype ] arg (=.png) image file type
-      -i [ --initial ] arg (=0)    Initial number of the frame
-      -p [ --padding ] arg (=3)    Pad the number with 0 to a set amount of digits
-      -a [ --ascii ]               Save pcd files in ascii mode
-      --oni                        Save .oni record.
-
-
-Example:
-- start in frame 55, with a padding of 6, with images as .jpg and save pcd files in binary mode.
-
-    viewer -i 55 -p 6 -t .jpg -b
 
 
 Dependencies
@@ -42,7 +26,6 @@ Dependencies
 Make sure to have the following packages installed
 
 - PCL 1.7
-- Boost
 - OpenCV
 - Openni 2.x (must have the environment variables set)
 - QT4
