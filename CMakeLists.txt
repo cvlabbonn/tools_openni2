@@ -4,6 +4,8 @@ project (tools_openni2)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories( ${PROJECT_SOURCE_DIR}/include )
 
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules/" ${CMAKE_MODULE_PATH})
+
 # PCL required
 find_package(PCL 1.7 REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
@@ -21,20 +23,10 @@ add_definitions(${OPENCV_DEFINITIONS})
 message("\n\nFound OpenCV\n\n")
 
 # Openni2 required
-set(Openni2_INCLUDE $ENV{OPENNI2_INCLUDE})
-if(NOT Openni2_INCLUDE)
-  message(FATAL_ERROR "Could not find OPENNI2_INCLUDE environment variable")
-endif(NOT Openni2_INCLUDE)
 
-set(Openni2_REDIST $ENV{OPENNI2_REDIST})
-if(NOT Openni2_REDIST)
-  message(FATAL_ERROR "Could not find OPENNI2_INCLUDE environment variable")
-endif(NOT Openni2_REDIST)
-
-include_directories( ${Openni2_INCLUDE} )
-link_directories( ${Openni2_REDIST} )
-
-message("\n\nFound Openni2\n\n")
+find_package(OpenNI2 REQUIRED)
+include_directories( ${OPENNI2_INCLUDE_DIRS} )
+add_definitions(${OPENNI2_DEFINITIONS})
 
 # QT4 required
 find_package(Qt4 REQUIRED)
@@ -77,6 +69,6 @@ ADD_EXECUTABLE(viewer ${VIEWER_SOURCES}
     ${QT_FORMS})
 
 
-TARGET_LINK_LIBRARIES(viewer ${QT_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS} OpenNI2)
+TARGET_LINK_LIBRARIES(viewer ${QT_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${OPENNI2_LIBRARIES})
 
 
