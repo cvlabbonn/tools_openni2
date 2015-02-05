@@ -64,6 +64,12 @@ void sliders::set_sliders_max(){
     ui->mySlider_Y_min->setRange(0, viewer->frame_height);
     ui->mySlider_Y_max->setRange(0, viewer->frame_height);
 
+    if (ui->myTextEdit_limits_Z->toPlainText() != ""){
+        int limit = ui->myTextEdit_limits_Z->toPlainText().toInt();
+        ui->mySlider_Z_min->setMaximum( +limit );
+        ui->mySlider_Z_max->setMaximum( +limit );
+    }
+
     ui->mySlider_X_min->setValue(0);
     ui->mySlider_X_max->setValue(ui->mySlider_X_max->maximum());
     ui->mySlider_Y_min->setValue(0);
@@ -95,7 +101,13 @@ void sliders::set_initial_variables(){
     viewer->padding = temp.toInt();
     temp = ui->starting_frame->text();
     viewer->initial_frame = temp.toInt();
+
     viewer->no_oni = !ui->oni_checkbox->isChecked();
+    viewer->save_depth = ui->depth_checkbox->isChecked();
+    viewer->save_pcd = ui->pcd_checkbox->isChecked();
+    viewer->save_rgb = ui->rgb_checkbox->isChecked();
+    viewer->save_rgbd = ui->rgbd_checkbox->isChecked();
+
     if(ui->png_rgb->isChecked()){
         viewer->img_type = ".png";
     } else if(ui->jpg_rgb->isChecked()){
@@ -103,6 +115,15 @@ void sliders::set_initial_variables(){
     } else if(ui->tif_rgb->isChecked()){
         viewer->img_type = ".tif";
     }
+    viewer->save_yml = ui->yml_depth->isChecked();
+    viewer->limitz_min =  ui->mySlider_Z_min->value();
+    viewer->limitz_max =  ui->mySlider_Z_max->value();;
+    viewer->limity_min =  ui->mySlider_Y_min->value();
+    viewer->limity_max =ui->mySlider_Y_max->value();
+    viewer->limitx_min =  ui->mySlider_X_min->value();
+    viewer->limitx_max =  ui->mySlider_X_max->value();
+
+    on_auto_exposure_toggled(ui->auto_exposure->isChecked());
 
     // disable color options if it is only-depth
     if(viewer->only_depth){
