@@ -55,6 +55,9 @@ void sliders::on_myButton_update_limit_Z_clicked()
     int limit = ui->myTextEdit_limits_Z->toPlainText().toInt();
     ui->mySlider_Z_min->setMaximum( +limit );
     ui->mySlider_Z_max->setMaximum( +limit );
+
+
+    on_mySlider_Z_max_actionTriggered(0);
 }
 
 void sliders::set_sliders_max(){
@@ -234,6 +237,7 @@ void sliders::on_png_depth_toggled(bool checked)
 {
     if (checked){
         viewer->save_yml = false;
+        viewer->save_both_depth = false;
     }
 }
 
@@ -241,6 +245,15 @@ void sliders::on_yml_depth_toggled(bool checked)
 {
     if (checked){
         viewer->save_yml = true;
+        viewer->save_both_depth = false;
+    }
+}
+
+void sliders::on_both_depth_button_toggled(bool checked)
+{
+    if (checked){
+        viewer->save_both_depth = true;
+        viewer->save_yml = false;
     }
 }
 

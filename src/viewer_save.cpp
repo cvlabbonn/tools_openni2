@@ -44,6 +44,24 @@ void Viewer::create_dir(){
                 std::cout << "The folder " << (folder + "/depth") << " could not be created and the program will exit." << std::endl;
                 exit(0);
             }
+            if (!save_yml || save_both_depth){
+                ret = mkdir((folder + "//depth" + "//png").c_str(), 0775);
+                if (ret == 0){
+                    std::cout << "The folder " << (folder + "/depth/png") << " was created." << std::endl;
+                } else {
+                    std::cout << "The folder " << (folder + "/depth/png") << " could not be created and the program will exit." << std::endl;
+                    exit(0);
+                }
+            }
+            if (save_yml || save_both_depth){
+                ret = mkdir((folder + "//depth" + "//yml").c_str(), 0775);
+                if (ret == 0){
+                    std::cout << "The folder " << (folder + "/depth/yml") << " was created." << std::endl;
+                } else {
+                    std::cout << "The folder " << (folder + "/depth/yml") << " could not be created and the program will exit." << std::endl;
+                    exit(0);
+                }
+            }
         }
         if (save_pcd){
             ret = mkdir((folder + "//pcl").c_str(), 0775);
@@ -106,10 +124,19 @@ void Viewer::saveToDisk(){
         std::string fileNameRGBD = folder_name + "/rgbd" + "/" + ss.str() + img_type;
         std::string fileNameDepthS = folder_name + "/depth_viz" + "/" + ss.str() + img_type;
         std::string fileNameDepthI = "";
-        if (!save_yml){
-            fileNameDepthI = folder_name + "/depth" + "/" + ss.str() + ".png";
-        } else {
-            fileNameDepthI = folder_name + "/depth" + "/" + ss.str() + ".yml";
+        if (save_depth && (!save_yml || save_both_depth)){
+            fileNameDepthI = folder_name + "/depth" + "/png" + "/" + ss.str() + ".png";
+            std::cout << fileNameDepthI << std::endl;
+            std::vector<int> params;
+            params.push_back( CV_IMWRITE_PNG_COMPRESSION );
+            params.push_back( 0 );
+            cv::imwrite(fileNameDepthI, raw_depth[i], params);
+        }
+        if(save_depth && (save_yml || save_both_depth))  {
+            fileNameDepthI = folder_name + "/depth" + "/yml"  + "/" + ss.str() + ".yml";
+            cv::FileStorage fs(fileNameDepthI, cv::FileStorage::WRITE);
+            fs << "depth" << raw_depth[i];
+            fs.release();
         }
 
 
@@ -141,18 +168,6 @@ void Viewer::saveToDisk(){
 
         if (save_depth){
             cv::imwrite(fileNameDepthS, depth_show[i]);
-
-            // save the depth info
-            if (save_yml){
-                cv::FileStorage fs(fileNameDepthI, cv::FileStorage::WRITE);
-                fs << "depth" << raw_depth[i];
-                fs.release();
-            } else {
-                std::vector<int> params;
-                params.push_back( CV_IMWRITE_PNG_COMPRESSION );
-                params.push_back( 0 );
-                cv::imwrite(fileNameDepthI, raw_depth[i], params);
-            }
         }
 
         j++;

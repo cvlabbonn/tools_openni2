@@ -63,6 +63,8 @@ private slots:
 
     void on_tif_rgb_toggled(bool checked);
 
+    void on_both_depth_button_toggled(bool checked);
+
 private:
     Ui::sliders *ui;
 };

@@ -77,6 +77,7 @@ public:
     bool save_pcd;
     bool save_rgbd;
     bool save_yml;
+    bool save_both_depth;
 
 
     Viewer(int argc, char *argv[]);

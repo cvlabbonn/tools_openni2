@@ -40,13 +40,20 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>250</y>
-     <width>571</width>
-     <height>17</height>
+     <y>246</y>
+     <width>191</width>
+     <height>41</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
-    <string>The Z values are in mili meters and the X and Y values are in pixels.</string>
+    <string>Z values are in millimeters
+X and Y values are in pixels</string>
    </property>
   </widget>
   <widget class="QWidget" name="layoutWidget">
@@ -511,9 +518,6 @@
       <property name="text">
        <string>RGBD</string>
       </property>
-      <property name="checked">
-       <bool>false</bool>
-      </property>
      </widget>
     </item>
     <item row="1" column="4">
@@ -543,7 +547,7 @@
     <rect>
      <x>30</x>
      <y>430</y>
-     <width>141</width>
+     <width>191</width>
      <height>47</height>
     </rect>
    </property>
@@ -569,6 +573,13 @@
      <widget class="QRadioButton" name="yml_depth">
       <property name="text">
        <string>yml</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QRadioButton" name="both_depth_button">
+      <property name="text">
+       <string>Both</string>
       </property>
      </widget>
     </item>
