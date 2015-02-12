@@ -126,7 +126,6 @@ void Viewer::saveToDisk(){
         std::string fileNameDepthI = "";
         if (save_depth && (!save_yml || save_both_depth)){
             fileNameDepthI = folder_name + "/depth" + "/png" + "/" + ss.str() + ".png";
-            std::cout << fileNameDepthI << std::endl;
             std::vector<int> params;
             params.push_back( CV_IMWRITE_PNG_COMPRESSION );
             params.push_back( 0 );

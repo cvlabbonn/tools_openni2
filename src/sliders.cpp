@@ -119,6 +119,7 @@ void sliders::set_initial_variables(){
         viewer->img_type = ".tif";
     }
     viewer->save_yml = ui->yml_depth->isChecked();
+    viewer->save_both_depth = ui->both_depth_button->isChecked();
     viewer->limitz_min =  ui->mySlider_Z_min->value();
     viewer->limitz_max =  ui->mySlider_Z_max->value();;
     viewer->limity_min =  ui->mySlider_Y_min->value();
